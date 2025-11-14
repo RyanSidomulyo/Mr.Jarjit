@@ -1,7 +1,12 @@
 {
-  "name": "uptime-monitor",
+  "name": "down-checker",
   "version": "1.0.0",
+  "description": "Simple website uptime monitor with Slack alerts",
+  "main": "monitoring/check-websites.js",
   "type": "module",
+  "scripts": {
+    "monitor": "node monitoring/check-websites.js"
+  },
   "dependencies": {
     "node-fetch": "^3.3.2"
   }

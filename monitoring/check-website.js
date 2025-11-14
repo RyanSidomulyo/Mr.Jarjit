@@ -1,24 +1,57 @@
 import fetch from "node-fetch";
-import websites from "./websites.json" assert { type: "json" };
 
-async function checkSite(url) {
+// Daftar website yang ingin dicek
+const websites = [
+  "https://frankandcojewellery.com/en/",
+  "https://mondialjeweler.com/en/",
+  "https://thepalacejeweler.com/",
+];
+
+// Ambil Slack Webhook dari environment variable
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
+
+if (!SLACK_WEBHOOK) {
+  console.error("❌ ERROR: SLACK_WEBHOOK is missing.");
+  process.exit(1);
+}
+
+// Kirim pesan ke Slack
+async function sendSlackMessage(text) {
+  await fetch(SLACK_WEBHOOK, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+}
+
+// Cek website
+async function checkWebsite(url) {
   try {
     const res = await fetch(url, { method: "GET", timeout: 5000 });
+
     if (!res.ok) {
-      throw new Error(`Status ${res.status}`);
+      console.log(`❌ DOWN: ${url} | Status: ${res.status}`);
+      await sendSlackMessage(
+        `🚨 *Website DOWN!* \nURL: ${url}\nStatus: ${res.status}`
+      );
+    } else {
+      console.log(`✅ UP: ${url}`);
     }
-    console.log(`✅ OK: ${url}`);
-    return true;
   } catch (err) {
-    console.log(`❌ DOWN: ${url} (${err.message})`);
-    throw err; // penting untuk trigger failure() di GitHub Actions
+    console.log(`❌ ERROR: ${url} unreachable`);
+    await sendSlackMessage(
+      `🚨 *Website ERROR!* \nURL: ${url}\nError: ${err.message}`
+    );
   }
 }
 
-async function main() {
-  for (const url of websites) {
-    await checkSite(url);
+// Loop semua website
+async function run() {
+  console.log("🔍 Checking websites...");
+  for (const site of websites) {
+    await checkWebsite(site);
   }
+  console.log("✅ Check completed.");
 }
 
-main();
+run();

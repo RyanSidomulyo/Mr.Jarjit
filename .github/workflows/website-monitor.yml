@@ -2,31 +2,26 @@ name: Website Uptime Monitor
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # cek setiap 30 menit
+    - cron: "*/10 * * * *" # setiap 10 menit
   workflow_dispatch: # bisa run manual
 
 jobs:
-  monitor:
+  uptime-checker:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: 🛎️ Checkout Repo
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: 📦 Install Dependencies
         run: npm install
 
-      - name: Run website monitor script
-        run: node monitoring/check-websites.js
-
-      - name: Send Slack notification when DOWN
-        if: failure()
-        run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data "{\"text\":\"⚠️ *Website Down Detected!* Check logs in GitHub Actions.\"}" \
-          ${{ secrets.SLACK_WEBHOOK }}
+      - name: 🚀 Run Website Checker
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: npm run monitor
