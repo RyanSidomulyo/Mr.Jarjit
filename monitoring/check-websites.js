@@ -7,14 +7,6 @@ const websites = [
   "https://thepalacejeweler.com/",
 ];
 
-// Ambil Slack Webhook dari environment variable
-const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
-
-if (!SLACK_WEBHOOK) {
-  console.error("❌ ERROR: SLACK_WEBHOOK is missing.");
-  process.exit(1);
-}
-
 // Kirim pesan ke Slack
 async function sendSlackMessage(text) {
   await fetch(SLACK_WEBHOOK, {
