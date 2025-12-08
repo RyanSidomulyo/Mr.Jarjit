@@ -1,12 +1,32 @@
 import fetch from "node-fetch";
 
-// Daftar website yang ingin dicek
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK;
+
+// Daftar website
 const websites = [
   "https://frankandcojewellery.com/en/",
   "https://mondialjeweler.com/en/",
   "https://thepalacejeweler.com/",
-  "https://centralmegakencana.com/",
   "https://pertaminaretail.com/",
+
+  "https://frankandcojewellery.com/en/contacts",
+  "https://frankandcojewellery.com/en/diamond-education",
+  "https://frankandcojewellery.com/en/size-guide",
+  "https://frankandcojewellery.com/en/faq",
+  "https://frankandcojewellery.com/en/terms-and-conditions",
+  "https://frankandcojewellery.com/en/privacy-policy",
+  "https://frankandcojewellery.com/en/stores",
+  "https://frankandcojewellery.com/en/articles",
+  "https://frankandcojewellery.com/en/about-us",
+
+  "https://thepalacejeweler.com/about/the-palace",
+  "https://thepalacejeweler.com/about/diamond",
+  "https://thepalacejeweler.com/about/gold",
+  "https://thepalacejeweler.com/location",
+  "https://thepalacejeweler.com/article",
+  "https://thepalacejeweler.com/faq",
+  "https://thepalacejeweler.com/terms-condition",
+  "https://thepalacejeweler.com/privacy-policies",
 
   "https://mondialjeweler.com/en/contacts",
   "https://mondialjeweler.com/en/faq",
@@ -17,7 +37,6 @@ const websites = [
   "https://polrestamanokwari.com/",
 ];
 
-// Kirim pesan ke Slack
 async function sendSlackMessage(text) {
   await fetch(SLACK_WEBHOOK, {
     method: "POST",
@@ -26,34 +45,70 @@ async function sendSlackMessage(text) {
   });
 }
 
-// Cek website
 async function checkWebsite(url) {
   try {
-    const res = await fetch(url, { method: "GET", timeout: 5000 });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
 
+    const res = await fetch(url, {
+      method: "GET",
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    // Case 1: status bukan 2xx
     if (!res.ok) {
       console.log(`❌ DOWN: ${url} | Status: ${res.status}`);
+
       await sendSlackMessage(
-        `🚨 *Website DOWN!* \nURL: ${url}\nStatus: ${res.status}`
+        `🚨 *Website DOWN!*  
+URL: ${url}  
+Status: ${res.status} (${res.statusText})`
       );
-    } else {
-      console.log(`✅ UP: ${url}`);
+      return;
     }
+
+    // Case 2: response kosong / error halaman
+    const text = await res.text();
+    if (!text || text.length < 30) {
+      console.log(`❌ EMPTY PAGE: ${url}`);
+
+      await sendSlackMessage(
+        `🚨 *Website EMPTY RESPONSE!*  
+URL: ${url}`
+      );
+
+      return;
+    }
+
+    console.log(`✅ UP: ${url}`);
   } catch (err) {
-    console.log(`❌ ERROR: ${url} unreachable`);
+    console.log(`❌ ERROR: ${url} | ${err.message}`);
+
+    let reason = err.message;
+
+    if (err.type === "aborted")
+      reason = "Timeout — website lambat / tidak merespon";
+    if (reason.includes("certificate")) reason = "SSL Certificate Error";
+    if (reason.includes("ENOTFOUND")) reason = "DNS Lookup Failed";
+    if (reason.includes("ECONNREFUSED")) reason = "Connection Refused";
+
     await sendSlackMessage(
-      `🚨 *Website ERROR!* \nURL: ${url}\nError: ${err.message}`
+      `🚨 *Website ERROR!*  
+URL: ${url}  
+Reason: ${reason}`
     );
   }
 }
 
-// Loop semua website
 async function run() {
-  console.log("🔍 Checking websites...");
+  console.log("🔍 Checking websites...\n");
+
   for (const site of websites) {
     await checkWebsite(site);
   }
-  console.log("✅ Check completed.");
+
+  console.log("\n✅ Check completed.");
 }
 
 run();
