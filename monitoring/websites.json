@@ -2,5 +2,41 @@
   "https://frankandcojewellery.com/en/",
   "https://mondialjeweler.com/en/",
   "https://thepalacejeweler.com/",
-  "https://pertaminaretail.com/"
+  "https://pertaminaretail.com/",
+
+  {
+    "_comment": "ini adalah footer frankandco"
+  },
+  "https://frankandcojewellery.com/en/contacts",
+  "https://frankandcojewellery.com/en/diamond-education",
+  "https://frankandcojewellery.com/en/size-guide",
+  "https://frankandcojewellery.com/en/faq",
+  "https://frankandcojewellery.com/en/terms-and-conditions",
+  "https://frankandcojewellery.com/en/privacy-policy",
+  "https://frankandcojewellery.com/en/stores",
+  "https://frankandcojewellery.com/en/articles",
+  "https://frankandcojewellery.com/en/about-us",
+
+  {
+    "_comment": "ini adalah footer thepalace"
+  },
+  "https://thepalacejeweler.com/about/the-palace",
+  "https://thepalacejeweler.com/about/diamond",
+  "https://thepalacejeweler.com/about/gold",
+  "https://thepalacejeweler.com/location",
+  "https://thepalacejeweler.com/article",
+  "https://thepalacejeweler.com/faq",
+  "https://thepalacejeweler.com/terms-condition",
+  "https://thepalacejeweler.com/privacy-policies",
+
+  {
+    "_comment": "ini adalah footer mondial"
+  },
+  "https://mondialjeweler.com/en/contacts",
+  "https://mondialjeweler.com/en/faq",
+  "https://mondialjeweler.com/en/terms",
+  "https://mondialjeweler.com/en/stores",
+  "https://mondialjeweler.com/en/stories/all",
+
+  "https://polrestamanokwari.com/"
 ]
