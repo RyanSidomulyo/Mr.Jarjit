@@ -34,7 +34,20 @@ const websites = [
   "https://mondialjeweler.com/en/stores",
   "https://mondialjeweler.com/en/stories/all",
 
+  "https://mondialjeweler.com/id/stories/articles",
+  "https://frankandcojewellery.com/id/articles",
+  "https://thepalacejeweler.com/article",
+
   "https://polrestamanokwari.com/",
+  "https://frankandcojewellery.com/id/rings/",
+  "https://frankandcojewellery.com/id/articles/tips-memberikan-cincin-berlian-sebagai-year-end-gi,",
+
+  "https://mondialjeweler.com/en/products/mondial-realms",
+  "https://mondialjeweler.com/en/stories/articles/mengapa-excellent-cut-jadi-standar-keindahan-perhi",
+
+  "https://thepalacejeweler.com/#collection-section",
+  "https://thepalacejeweler.com/product?type=Perhiasan+Emas&categories[]=Gelang",
+  "https://thepalacejeweler.com/article/mewah-dan-terjangkau-ini-8-model-cincin-emas-wani",
 ];
 
 async function sendSlackMessage(text) {
