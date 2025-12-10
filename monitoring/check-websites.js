@@ -40,7 +40,6 @@ const websites = [
 
   "https://polrestamanokwari.com/",
   "https://frankandcojewellery.com/id/rings/",
-  "https://frankandcojewellery.com/id/articles/tips-memberikan-cincin-berlian-sebagai-year-end-gi,",
 
   "https://mondialjeweler.com/en/products/mondial-realms",
   "https://mondialjeweler.com/en/stories/articles/mengapa-excellent-cut-jadi-standar-keindahan-perhi",
@@ -48,6 +47,8 @@ const websites = [
   "https://thepalacejeweler.com/#collection-section",
   "https://thepalacejeweler.com/product?type=Perhiasan+Emas&categories[]=Gelang",
   "https://thepalacejeweler.com/article/mewah-dan-terjangkau-ini-8-model-cincin-emas-wani",
+
+  "https://frankandcojewellery.com/id/articles/tips-memberikan-cincin-berlian-sebagai-year-end-gi,",
 ];
 
 async function sendSlackMessage(text) {
