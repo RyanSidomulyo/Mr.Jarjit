@@ -48,7 +48,7 @@ const websites = [
   "https://thepalacejeweler.com/product?type=Perhiasan+Emas&categories[]=Gelang",
   "https://thepalacejeweler.com/article/mewah-dan-terjangkau-ini-8-model-cincin-emas-wani",
 
-  "https://frankandcojewellery.com/id/articles/tips-memberikan-cincin-berlian-sebagai-year-end-gi,",
+  // "https://frankandcojewellery.com/id/articles/tips-memberikan-cincin-berlian-sebagai-year-end-gi,",
 ];
 
 async function sendSlackMessage(text) {
